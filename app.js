@@ -238,11 +238,11 @@ function convertMsToUnit(ms, unit) {
         case 'seconds':
             return Math.floor(ms / 1000);
         case 'minutes':
-            return (ms / (1000 * 60)).toFixed(2);
+            return Math.floor(ms / (1000 * 60));
         case 'hours':
-            return (ms / (1000 * 60 * 60)).toFixed(4);
+            return Math.floor(ms / (1000 * 60 * 60));
         case 'days':
-            return (ms / (1000 * 60 * 60 * 24)).toFixed(2);
+            return Math.floor(ms / (1000 * 60 * 60 * 24));
         default:
             return 0;
     }
