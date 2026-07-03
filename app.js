@@ -275,6 +275,12 @@ function tick() {
     // 2. Custom Mode
     const customData = calculateRemaining(birthDateMs, state.settings.customTarget);
     
+    // Update custom age label
+    const customBaseAgeEl = document.getElementById('custom-base-age');
+    if (customBaseAgeEl) {
+        customBaseAgeEl.textContent = `(${state.settings.customTarget} years)`;
+    }
+
     elements.custom.number.textContent = formatNumber(convertMsToUnit(customData.remainingMs, state.settings.displayUnit));
     setRingProgress(elements.custom.ring, customData.progress);
     
