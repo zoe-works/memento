@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Memento - Life Countdown</title>
+    <meta name="theme-color" content="#0a0e1a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    
+    <div class="app-container">
+        <!-- Settings Button -->
+        <button id="settings-btn" class="icon-btn" aria-label="設定">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+
+        <!-- Swipeable View -->
+        <div class="countdown-view" id="swipe-container">
+            <!-- Lifespan Mode Page -->
+            <div class="page" id="lifespan-page">
+                <div class="countdown-wrapper">
+                    <svg class="progress-ring" viewBox="0 0 100 100">
+                        <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="ring-progress" id="lifespan-ring" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="countdown-content">
+                        <div class="label">Average Lifespan</div>
+                        <div class="number" id="lifespan-number">--</div>
+                        <div class="unit-label" id="lifespan-unit-label">days</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Mode Page -->
+            <div class="page" id="custom-page">
+                <div class="countdown-wrapper">
+                    <svg class="progress-ring" viewBox="0 0 100 100">
+                        <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="ring-progress" id="custom-ring" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="countdown-content">
+                        <div class="label">Custom Target</div>
+                        <div class="number" id="custom-number">--</div>
+                        <div class="unit-label" id="custom-unit-label">days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Dots -->
+        <div class="page-indicator">
+            <div class="dot active" id="dot-lifespan"></div>
+            <div class="dot" id="dot-custom"></div>
+        </div>
+
+        <!-- Unit Switcher -->
+        <div class="unit-switcher">
+            <button class="unit-btn" data-unit="seconds">Seconds</button>
+            <button class="unit-btn" data-unit="minutes">Minutes</button>
+            <button class="unit-btn" data-unit="hours">Hours</button>
+            <button class="unit-btn active" data-unit="days">Days</button>
+        </div>
+    </div>
+
+    <!-- Initial Setup Overlay -->
+    <div id="setup-overlay" class="overlay hidden">
+        <div class="setup-card glass-panel">
+            <h2>Welcome to Memento</h2>
+            <p>To calculate your remaining time, please enter your details.</p>
+            <form id="setup-form">
+                <div class="form-group">
+                    <label for="birthdate">Date of Birth</label>
+                    <input type="date" id="birthdate" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender (for avg. lifespan)</label>
+                    <select id="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="custom-target">Custom Target Age (optional)</label>
+                    <input type="number" id="custom-target" placeholder="e.g. 100" min="1" max="150" value="100">
+                </div>
+                <button type="submit" class="primary-btn">Begin Journey</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
