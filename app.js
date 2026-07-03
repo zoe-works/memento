@@ -263,6 +263,12 @@ function tick() {
     const avgYears = state.avgLifespan[state.settings.gender] || 80;
     const lifespanData = calculateRemaining(birthDateMs, avgYears);
     
+    // Update baseline age label
+    const baseAgeEl = document.getElementById('lifespan-base-age');
+    if (baseAgeEl) {
+        baseAgeEl.textContent = `(${avgYears} years)`;
+    }
+
     elements.lifespan.number.textContent = formatNumber(convertMsToUnit(lifespanData.remainingMs, state.settings.displayUnit));
     setRingProgress(elements.lifespan.ring, lifespanData.progress);
     
