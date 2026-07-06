@@ -1,4 +1,4 @@
-const CACHE_NAME = 'memento-v2';
+const CACHE_NAME = 'memento-v3';
 const ASSETS = [
     './',
     './index.html',
