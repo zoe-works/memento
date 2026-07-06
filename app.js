@@ -105,7 +105,7 @@ function startApp() {
 // Event Listeners
 function setupEventListeners() {
     // Setup Form
-    elements.setupForm.addEventListener('submit', (e) => {
+    elements.setupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         state.settings.birthdate = document.getElementById('birthdate').value;
@@ -114,7 +114,29 @@ function setupEventListeners() {
         state.isSetupComplete = true;
         
         saveSettings();
-        startApp();
+        
+        // 強制的にキャッシュをクリアしてService Workerを解除
+        if ('caches' in window) {
+            try {
+                const cacheNames = await caches.keys();
+                await Promise.all(cacheNames.map(name => caches.delete(name)));
+            } catch (err) {
+                console.error('キャッシュのクリアに失敗しました', err);
+            }
+        }
+        if ('serviceWorker' in navigator) {
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) {
+                    await registration.unregister();
+                }
+            } catch (err) {
+                console.error('Service Workerの解除に失敗しました', err);
+            }
+        }
+        
+        // ページをリロードして最新のファイルを読み込む
+        window.location.reload(true);
     });
     
     // Settings Button
